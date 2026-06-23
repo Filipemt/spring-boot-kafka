@@ -2,7 +2,6 @@ package com.filipecode.icompras.clientes.controller;
 
 import com.filipecode.icompras.clientes.model.Cliente;
 import com.filipecode.icompras.clientes.service.ClienteService.ClienteService;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -2,7 +2,6 @@ package com.filipecode.icompras.produtos.controller;
 
 import com.filipecode.icompras.produtos.model.Produto;
 import com.filipecode.icompras.produtos.service.ProdutoService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
