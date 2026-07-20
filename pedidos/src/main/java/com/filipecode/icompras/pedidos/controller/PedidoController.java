@@ -22,6 +22,7 @@ public class PedidoController {
     public ResponseEntity<Object> criarPedido(@RequestBody NovoPedidoDTO requestDTO) {
         var pedido = mapper.map(requestDTO);
         var novoPedido = pedidoService.criarPedido(pedido);
+
         return ResponseEntity.ok(novoPedido.getCodigo());
     }
 }

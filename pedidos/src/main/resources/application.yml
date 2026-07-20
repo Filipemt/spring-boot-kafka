@@ -24,6 +24,10 @@ icompras:
   pedidos:
     clients:
       produtos:
-        url: 'http://localhost:8081/produtos'
+        url: http://localhost:8081/produtos
       clientes:
-        url: 'http://localhost:8082/clientes'
+        url: http://localhost:8082/clientes
+
+logging:
+  level:
+    root: INFO
