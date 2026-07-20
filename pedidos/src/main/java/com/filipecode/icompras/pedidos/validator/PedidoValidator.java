@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 public class PedidoValidator {
 
     public void validar(Pedido pedido) {
-
+        
     }
 }
