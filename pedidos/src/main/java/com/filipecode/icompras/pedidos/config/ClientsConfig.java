@@ -7,5 +7,5 @@ import org.springframework.context.annotation.Configuration;
 @EnableFeignClients(basePackages = "com.filipecode.icompras.pedidos.client")
 public class ClientsConfig {
 
-    
+
 }
