@@ -1,8 +1,11 @@
 package com.filipecode.icompras.pedidos.service;
 
 import com.filipecode.icompras.pedidos.client.ServicoBancarioClient;
+import com.filipecode.icompras.pedidos.model.DadosPagamento;
 import com.filipecode.icompras.pedidos.model.Pedido;
 import com.filipecode.icompras.pedidos.model.enums.StatusPedido;
+import com.filipecode.icompras.pedidos.model.enums.TipoPagamento;
+import com.filipecode.icompras.pedidos.model.exception.ItemNaoEncontradoException;
 import com.filipecode.icompras.pedidos.repository.ItemPedidoRepository;
 import com.filipecode.icompras.pedidos.repository.PedidoRepository;
 import com.filipecode.icompras.pedidos.validator.PedidoValidator;
@@ -55,13 +58,39 @@ public class PedidoService {
         }
 
         Pedido pedido = pedidoEncontrado.get();
+
         if (sucesso) {
             pedido.setStatus(StatusPedido.PAGO);
-        }
-        else {
+        } else {
             pedido.setStatus(StatusPedido.ERRO_PAGAMENTO);
             pedido.setObservacoes(observacoes);
         }
+
+        pedidoRepository.save(pedido);
+    }
+
+    @Transactional
+    public void adicionarNovoPagamento(Long codigoPedido, String dadosCartao, TipoPagamento tipoPagamento) {
+        var pedidoEncontrado = pedidoRepository.findById(codigoPedido);
+
+        if (pedidoEncontrado.isEmpty()) {
+            log.info("Pedido não encontrado para o código {}", codigoPedido);
+
+            throw new ItemNaoEncontradoException("Pedido não encontrado para o código " + codigoPedido);
+        }
+
+        var pedido = pedidoEncontrado.get();
+
+        DadosPagamento dadosPagamento = new DadosPagamento();
+        dadosPagamento.setTipoPagamento(tipoPagamento);
+        dadosPagamento.setDados(dadosCartao);
+
+        pedido.setDadosPagamento(dadosPagamento);
+        pedido.setStatus(StatusPedido.REALIZADO);
+        pedido.setObservacoes("Novo pagamento realizado, aguardando processamento!");
+
+        String novaChavePagamento = servicoBancarioClient.solicitarPagamento(pedido);
+        pedido.setChavePagamento(novaChavePagamento);
 
         pedidoRepository.save(pedido);
     }

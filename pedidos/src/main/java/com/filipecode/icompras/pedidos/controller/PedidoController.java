@@ -1,5 +1,6 @@
 package com.filipecode.icompras.pedidos.controller;
 
+import com.filipecode.icompras.pedidos.controller.dto.AdicionarNovoPagamentoDTO;
 import com.filipecode.icompras.pedidos.controller.dto.NovoPedidoDTO;
 import com.filipecode.icompras.pedidos.controller.mappers.PedidoMapper;
 import com.filipecode.icompras.pedidos.service.PedidoService;
@@ -24,5 +25,18 @@ public class PedidoController {
         var novoPedido = pedidoService.criarPedido(pedido);
 
         return ResponseEntity.ok(novoPedido.getCodigo());
+    }
+
+    @PostMapping("/pagamentos")
+    public ResponseEntity<Object> adicionarNovoPagamento(
+            @RequestBody AdicionarNovoPagamentoDTO requestDTO) {
+
+        pedidoService.adicionarNovoPagamento(
+                requestDTO.codigoPedido(),
+                requestDTO.dadosCartao(),
+                requestDTO.tipoPagamento()
+        );
+
+        return ResponseEntity.noContent().build();
     }
 }
