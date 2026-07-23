@@ -1,5 +1,6 @@
 package com.filipecode.icompras.pedidos.model;
 
+import com.filipecode.icompras.pedidos.client.dto.ClienteDTO;
 import com.filipecode.icompras.pedidos.model.enums.StatusPedido;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -45,6 +46,9 @@ public class Pedido {
 
     @Column(name = "url_nf")
     private String urlNotaFiscal;
+
+    @Transient
+    private ClienteDTO dadosCliente;
 
     @Transient
     private DadosPagamento dadosPagamento;
