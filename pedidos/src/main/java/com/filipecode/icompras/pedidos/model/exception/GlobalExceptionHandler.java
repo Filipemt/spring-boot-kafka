@@ -1,8 +1,6 @@
-package com.filipecode.icompras.pedidos.config;
+package com.filipecode.icompras.pedidos.model.exception;
 
 import com.filipecode.icompras.pedidos.model.ErroResposta;
-import com.filipecode.icompras.pedidos.model.exception.ItemNaoEncontradoException;
-import com.filipecode.icompras.pedidos.model.exception.ValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

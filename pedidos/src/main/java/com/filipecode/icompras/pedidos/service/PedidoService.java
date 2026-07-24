@@ -3,13 +3,13 @@ package com.filipecode.icompras.pedidos.service;
 import com.filipecode.icompras.pedidos.client.ClientesClient;
 import com.filipecode.icompras.pedidos.client.ProdutosClient;
 import com.filipecode.icompras.pedidos.client.ServicoBancarioClient;
-import com.filipecode.icompras.pedidos.client.dto.ClienteDTO;
 import com.filipecode.icompras.pedidos.model.DadosPagamento;
 import com.filipecode.icompras.pedidos.model.ItemPedido;
 import com.filipecode.icompras.pedidos.model.Pedido;
 import com.filipecode.icompras.pedidos.model.enums.StatusPedido;
 import com.filipecode.icompras.pedidos.model.enums.TipoPagamento;
 import com.filipecode.icompras.pedidos.model.exception.ItemNaoEncontradoException;
+import com.filipecode.icompras.pedidos.publisher.PagamentoPublisher;
 import com.filipecode.icompras.pedidos.repository.ItemPedidoRepository;
 import com.filipecode.icompras.pedidos.repository.PedidoRepository;
 import com.filipecode.icompras.pedidos.validator.PedidoValidator;
@@ -32,6 +32,7 @@ public class PedidoService {
     private final ServicoBancarioClient servicoBancarioClient;
     private final ClientesClient apiClientes;
     private final ProdutosClient apiProdutos;
+    private final PagamentoPublisher pagamentoPublisher;
 
     @Transactional
     public Pedido criarPedido(Pedido pedido) {
@@ -67,14 +68,21 @@ public class PedidoService {
         Pedido pedido = pedidoEncontrado.get();
 
         if (sucesso) {
-            pedido.setStatus(StatusPedido.PAGO);
-            // Todo: Criar método para publicar o pagamento
+            prepararPublicarPedidoPago(pedido);
         } else {
             pedido.setStatus(StatusPedido.ERRO_PAGAMENTO);
             pedido.setObservacoes(observacoes);
         }
 
         pedidoRepository.save(pedido);
+    }
+
+    private void prepararPublicarPedidoPago(Pedido pedido) {
+        pedido.setStatus(StatusPedido.PAGO);
+        carregarDadosCliente(pedido);
+        carregarItensPedido(pedido);
+
+        pagamentoPublisher.publicar(pedido);
     }
 
     @Transactional
