@@ -13,7 +13,7 @@ public class BucketConfig {
     MinioProps  minioProps;
 
     @Bean
-    public MinioClient bucletClient() {
+    public MinioClient bucketClient() {
         return MinioClient.builder()
                 .endpoint(minioProps.getUrl())
                 .credentials(minioProps.getAccessKey(), minioProps.getSecretKey())
