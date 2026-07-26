@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "minio")
 @EnableConfigurationProperties
+@ConfigurationProperties(prefix = "minio")
 @Data
 public class MinioProps {
 
