@@ -41,7 +41,8 @@ public class PedidoMapper {
                 detalheItemPedidoDTO.codigoProduto(),
                 detalheItemPedidoDTO.nome(),
                 detalheItemPedidoDTO.quantidade(),
-                detalheItemPedidoDTO.valorUnitario()
+                detalheItemPedidoDTO.valorUnitario(),
+                detalheItemPedidoDTO.total()
         );
     }
 }
