@@ -11,6 +11,13 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * JasperReport - Representa o template compilado do relatório. Não possui dados apenas o layout.
+ * JRBeanCollectionDataSource - Representa a fonte de dados do relatório. É uma coleção de beans (objetos Java) que são usados para preencher o relatório.
+ * JasperPrint - Representa o relatório já preenchido com os dados. É o resultado da combinação do JasperReport com a fonte de dados.
+ * JasperFillManager.fillReport(template compilados, parâmetros, coleção de dados) - Preenche o relatório com os dados.
+ * JasperExportManager - Responsável por exportar um JasperPrint para um formato (PDF, HTML, etc); Transforma o JasperPrint em um array de bytes.
+ */
 @Service
 public class NotaFiscalService {
 

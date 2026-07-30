@@ -30,6 +30,7 @@ public class GeradorNotaFiscalService {
                     nomeArquivo, new ByteArrayInputStream(byteArray), MediaType.APPLICATION_PDF, byteArray.length);
 
             bucketService.upload(file);
+            log.info("Nota fiscal gerada com sucesso para o pedido: {}", pedido.codigo());
         } catch (Exception e) {
             log.info("Erro ao gerar nota fiscal para o pedido:{}", pedido.codigo(), e);
         }
