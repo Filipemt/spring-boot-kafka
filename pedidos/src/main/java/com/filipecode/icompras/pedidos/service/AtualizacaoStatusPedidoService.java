@@ -17,8 +17,13 @@ public class AtualizacaoStatusPedidoService {
         // Por conta da annotation @Transactional não é necessário pedidoRepository.save()
         pedidoRepository.findById(codigo).ifPresent(pedido -> {
             pedido.setStatus(statusPedido);
-            pedido.setUrlNotaFiscal(urlNotaFiscal);
-            pedido.setCodigoRastreio(rastreio);
+
+            if (urlNotaFiscal != null) {
+                pedido.setUrlNotaFiscal(urlNotaFiscal);
+            }
+            if (rastreio != null) {
+                pedido.setCodigoRastreio(rastreio);
+            }
         });
     }
 }
