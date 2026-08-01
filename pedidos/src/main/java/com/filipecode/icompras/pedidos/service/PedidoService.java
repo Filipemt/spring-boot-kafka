@@ -38,7 +38,6 @@ public class PedidoService {
     public Pedido criarPedido(Pedido pedido) {
         pedidoValidator.validar(pedido);
         realizarPersistencia(pedido);
-
         enviarSolicitacaoPagamento(pedido);
 
         return pedido;

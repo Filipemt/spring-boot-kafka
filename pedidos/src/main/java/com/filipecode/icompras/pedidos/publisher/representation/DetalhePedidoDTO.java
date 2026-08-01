@@ -10,6 +10,7 @@ public record DetalhePedidoDTO(
         String logradouro, String numero, String bairro, String email,
         String telefone, String dataPedido,
         BigDecimal total, StatusPedido status,
+        String urlNotaFiscal, String codigoRastreio,
         List<DetalheItemPedidoDTO> itens
 ) {
 }
