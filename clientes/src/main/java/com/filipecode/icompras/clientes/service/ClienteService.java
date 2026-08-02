@@ -1,4 +1,4 @@
-package com.filipecode.icompras.clientes.service.ClienteService;
+package com.filipecode.icompras.clientes.service;
 
 import com.filipecode.icompras.clientes.model.Cliente;
 import com.filipecode.icompras.clientes.repository.ClienteRepository;
