@@ -8,7 +8,6 @@ import com.filipecode.icompras.pedidos.model.enums.StatusPedido;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,16 +32,7 @@ public interface PedidoMapper {
         pedido.setStatus(StatusPedido.REALIZADO);
         pedido.setDataPedido(LocalDateTime.now());
 
-        var total = calcularTotal(pedido);
-        pedido.setTotal(total);
-
         pedido.getItens().forEach(itemPedido -> itemPedido.setPedido(pedido));
     }
 
-    private static BigDecimal calcularTotal(Pedido pedido) {
-
-        return pedido.getItens().stream().map(item ->
-                item.getValorUnitario().multiply(BigDecimal.valueOf(item.getQuantidade()))
-        ).reduce(BigDecimal.ZERO, BigDecimal::add).abs();
-    }
 }

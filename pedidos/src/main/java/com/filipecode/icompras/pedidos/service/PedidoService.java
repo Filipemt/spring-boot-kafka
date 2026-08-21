@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,8 @@ public class PedidoService {
     @Transactional
     public Pedido criarPedido(Pedido pedido) {
         pedidoValidator.validar(pedido);
+        buscarValorUnitarioItem(pedido);
+        calcularTotal(pedido);
         realizarPersistencia(pedido);
         enviarSolicitacaoPagamento(pedido);
 
@@ -108,6 +111,22 @@ public class PedidoService {
         pedido.setChavePagamento(novaChavePagamento);
 
         pedidoRepository.save(pedido);
+    }
+
+    private void buscarValorUnitarioItem(Pedido pedido) {
+        pedido.getItens().forEach(item -> {
+            var response = apiProdutos.obterDados(item.getCodigoProduto());
+            assert response.getBody() != null;
+            item.setValorUnitario(response.getBody().valorUnitario());
+        });
+    }
+
+    private void calcularTotal(Pedido pedido) {
+        var total = pedido.getItens().stream()
+                .map(item -> item.getValorUnitario().multiply(BigDecimal.valueOf(item.getQuantidade())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        pedido.setTotal(total);
     }
 
     public Optional<Pedido> carregarDadosCompletosPedido(Long codigoPedido) {
